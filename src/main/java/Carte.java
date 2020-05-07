@@ -6,6 +6,10 @@ public class Carte {
     Carte[] jeuDeCartes = new Carte[52];
     Carte[] jeuDeCartesJoueur1 = new Carte[jeuDeCartes.length/2];
     Carte[] jeuDeCartesJoueur2 = new Carte[jeuDeCartes.length/2];
+    int compteurJoueur1 = 0;
+    int compteurJoueur2 = 0;
+    int victoireJoueur1 = 0;
+    int victoireJoueur2 = 0;
 
     public Carte() {
     }
@@ -13,6 +17,18 @@ public class Carte {
     public Carte(int valeur, String carte) {
         this.valeur = valeur;
         this.carte = carte;
+    }
+
+    public Carte[] getJeuDeCartes() {
+        return jeuDeCartes;
+    }
+
+    public int getVictoireJoueur1() {
+        return victoireJoueur1;
+    }
+
+    public int getVictoireJoueur2() {
+        return victoireJoueur2;
     }
 
     public int getValeur() {
@@ -31,6 +47,7 @@ public class Carte {
         this.carte = carte;
     }
 
+
     public void constructionJeuDeCartes() {
         int[] val = new int[]{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
         String[] typeCarte = new String[]{"2", "3", "4", "5", "6", "7", "8", "9", "10", "Valet", "Dame", "Roi", "As"};
@@ -46,10 +63,11 @@ public class Carte {
         }
         //Mélange tableau jeuDeCartes
         ArrayUtils.shuffle(jeuDeCartes);
-        //affichage jeuDeCarte
+        /*affichage jeuDeCarte pour test
         for (Carte carte : jeuDeCartes) {
             System.out.println(carte.getCarte());
         }
+         */
     }
 
     public void distributionCartes(){
@@ -65,11 +83,40 @@ public class Carte {
             jeuDeCartesJoueur2[i] = jeuDeCartes[j];
             j = j+2;
         }
+        /* affichage pour test
         for (Carte carte : jeuDeCartesJoueur1) {
             System.out.println("joueur 1 :"+carte.getCarte());
         }
         for (Carte carte : jeuDeCartesJoueur2) {
             System.out.println("joueur 2 :"+carte.getCarte());
+        }
+
+         */
+    }
+
+    public void joue(){
+        //Mélange tableau jeuDeCartes
+        ArrayUtils.shuffle(jeuDeCartesJoueur1);
+        ArrayUtils.shuffle(jeuDeCartesJoueur2);
+        for(int i = 1 ; i<jeuDeCartesJoueur1.length; i++){
+            Carte carteJoueur1 = jeuDeCartesJoueur1[jeuDeCartesJoueur1.length-i];
+            Carte carteJoueur2 = jeuDeCartesJoueur2[jeuDeCartesJoueur2.length-i];
+            //System.out.println("Joueur 1 tire :" +carteJoueur1.getCarte());
+            //System.out.println("Joueur 2 tire :" +carteJoueur2.getCarte());
+            if(carteJoueur1.getValeur()<carteJoueur2.getValeur()){
+                //System.out.println("Joueur 2 gagne");
+                compteurJoueur2++;
+            }else {
+                //System.out.println("Joueur 1 gagne");
+                compteurJoueur1++;
+            }
+        }
+        if(compteurJoueur1<compteurJoueur2){
+            //System.out.println("Joueur 2 gagne la partie avec: " + compteurJoueur2 +" duels gagnants sur " + (compteurJoueur1+compteurJoueur2) + " duels");
+            victoireJoueur2 ++;
+        }else {
+            //System.out.println("Joueur 1 gagne la partie avec: " + compteurJoueur1 +" duels gagnants sur " + (compteurJoueur1+compteurJoueur2) + " duels");
+            victoireJoueur1++;
         }
     }
 }
